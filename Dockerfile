@@ -14,7 +14,7 @@ RUN \
       xvfb \
       x11vnc \
       xz && \
-    mkdir -p /usr/share/wine/mono && wget -O - https://dl.winehq.org/wine/wine-mono/7.0.0/wine-mono-7.0.0-x86.tar.xz | tar -Jxv -C /usr/share/wine/mono && \
+    mkdir -p /usr/share/wine/mono && wget -O - https://dl.winehq.org/wine/wine-mono/7.1.0/wine-mono-7.1.0-x86.tar.xz | tar -Jxv -C /usr/share/wine/mono && \
     mkdir -p /usr/share/wine/gecko && wget -O - http://dl.winehq.org/wine/wine-gecko/2.47.2/wine-gecko-2.47.2-x86.tar.xz | tar -Jxv -C /usr/share/wine/gecko 
 
 # Setup environment variables
