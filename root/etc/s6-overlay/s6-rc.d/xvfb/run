@@ -1,0 +1,5 @@
+#!/command/with-contenv bash
+
+exec \
+    s6-setuidgid abc \
+        /usr/bin/Xvfb :0 -screen 0 1024x768x24 -nolisten unix
