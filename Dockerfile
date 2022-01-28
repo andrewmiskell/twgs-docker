@@ -28,7 +28,8 @@ ENV HOME=/root \
     DISPLAY_HEIGHT=768
 
 # Setup application specific variables
-ENV WINEPREFIX=/app
+ENV WINEPREFIX=/app \
+    WINEDEBUG=fixme-all
 
 RUN mkdir -p /app
 
