@@ -1,0 +1,27 @@
+#!/command/with-contenv bash
+
+# Bootstrap TWGS 2.20B if not already installed
+if [ ! -f "/app/.twgs_installed" ]; then
+    echo '
+    -------------------------------------
+    TWGS not installed, bootstrapping
+    installation. May take a few moments.
+    -------------------------------------'
+    s6-setuidgid twgs /usr/bin/wget -O /tmp/TWGS220B.EXE http://wiki.classictw.com/filearchive/apps/TWGS220B.EXE
+    s6-setuidgid twgs /usr/bin/Xvfb :0 -screen 0 1024x768x24 &
+    s6-setuidgid twgs /usr/bin/wine /tmp/TWGS220B.EXE /s /v"/qn INSTALLDIR=C:\EIS\TWGS"
+    sleep 10
+    /usr/bin/pkill Xvfb
+    s6-setuidgid twgs touch "/app/.twgs_installed"
+    echo '
+    -------------------------------------
+    TWGS has been installed!
+    Proceeding with launch.
+    -------------------------------------'
+else
+    echo '
+    -------------------------------------
+    TWGS installation detected!
+    Proceeding with launch.
+    -------------------------------------'
+fi

@@ -1,5 +1,5 @@
 #!/command/with-contenv bash
 
 exec \
-    s6-setuidgid abc \
+    s6-setuidgid twgs \
         /usr/bin/wine /app/drive_c/EIS/TWGS/twgs.exe

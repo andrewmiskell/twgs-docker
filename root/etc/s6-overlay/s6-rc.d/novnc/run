@@ -1,5 +1,5 @@
 #!/command/with-contenv bash
 
 exec \
-    s6-setuidgid abc \
+    s6-setuidgid twgs \
         /usr/bin/novnc_server --vnc localhost:5900 --listen 8080

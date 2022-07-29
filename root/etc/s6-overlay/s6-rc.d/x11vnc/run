@@ -1,4 +1,5 @@
 #!/command/with-contenv bash
 
-exec s6-setuidgid abc \
-        /usr/bin/x11vnc -noxrecord
+exec \
+    s6-setuidgid twgs \
+        /usr/bin/x11vnc -noxrecord -quiet

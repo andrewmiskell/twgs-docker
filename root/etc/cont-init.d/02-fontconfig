@@ -1,0 +1,3 @@
+#!/command/with-contenv bash
+
+fc-cache --really-force

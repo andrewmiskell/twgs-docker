@@ -1,0 +1,19 @@
+#!/command/with-contenv bash
+
+PUID=${PUID:-911}
+PGID=${PGID:-911}
+
+groupmod -o -g "$PGID" twgs
+usermod -o -u "$PUID" twgs
+
+echo '
+-------------------------------------
+GID/UID
+-------------------------------------'
+echo "
+User uid:    $(id -u twgs)
+User gid:    $(id -g twgs)
+-------------------------------------
+"
+
+chown twgs:twgs /app
