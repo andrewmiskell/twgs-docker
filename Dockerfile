@@ -4,9 +4,6 @@ FROM i386/alpine:edge
 ARG S6_OVERLAY_VERSION=3.1.1.2
 ARG S6_OVERLAY_ARCH="i686"
 
-# Set s6 to keep environment
-#ENV S6_KEEP_ENV=0
-
 # Setup environment variables
 ENV PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
     HOME=/root \
@@ -18,6 +15,10 @@ ENV PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
     DISPLAY_WIDTH=1024 \
     DISPLAY_HEIGHT=768 \
     S6_CMD_WAIT_FOR_SERVICES_MAXTIME="0"
+
+# Setup application specific variables
+ENV WINEPREFIX=/app \
+    WINEDEBUG=-all
 
 # Install all required packages
 RUN \
@@ -38,12 +39,8 @@ RUN \
 RUN wget -O - https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz | tar -C / -Jxp
 RUN wget -O - https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_OVERLAY_ARCH}.tar.xz | tar -C / -Jxp
 
-# Setup application specific variables
-ENV WINEPREFIX=/app \
-    WINEDEBUG=-all
-
-RUN echo "**** create twgs user and make our folders ****" && \
-    groupmod -g 1000 users && \
+# Create TWGS user and /app directory
+RUN groupmod -g 1000 users && \
     useradd -u 911 -U -d /app -s /bin/false twgs && \
     usermod -G users twgs && \
     mkdir -p /app 
