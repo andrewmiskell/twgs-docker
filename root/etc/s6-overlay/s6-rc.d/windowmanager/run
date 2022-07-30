@@ -1,5 +1,7 @@
-#!/command/with-contenv bash
+#!/command/execlineb -P
 
-exec \
-    s6-setuidgid twgs \
-        /usr/bin/icewm
+with-contenv
+
+unexport HOME
+
+s6-setuidgid twgs /usr/bin/icewm-session
