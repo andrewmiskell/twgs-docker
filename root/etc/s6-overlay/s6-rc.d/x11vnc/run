@@ -2,4 +2,4 @@
 
 exec \
     s6-setuidgid twgs \
-        /usr/bin/x11vnc -noxrecord -quiet
+        /usr/bin/x11vnc -noxrecord -quiet -forever
