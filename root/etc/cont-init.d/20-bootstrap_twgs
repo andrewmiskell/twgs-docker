@@ -6,7 +6,8 @@ if [ ! -f "/app/.twgs_installed" ]; then
     -------------------------------------
     TWGS not installed, bootstrapping
     installation. May take a few moments.
-    -------------------------------------'
+    -------------------------------------
+    '
     s6-setuidgid twgs /usr/bin/wget -O /tmp/TWGS220B.EXE http://wiki.classictw.com/filearchive/apps/TWGS220B.EXE
     s6-setuidgid twgs /usr/bin/Xvfb :0 -screen 0 1024x768x24 &
     s6-setuidgid twgs /usr/bin/wine /tmp/TWGS220B.EXE /s /v"/qn INSTALLDIR=C:\EIS\TWGS"
@@ -17,11 +18,13 @@ if [ ! -f "/app/.twgs_installed" ]; then
     -------------------------------------
     TWGS has been installed!
     Proceeding with launch.
-    -------------------------------------'
+    -------------------------------------
+    '
 else
     echo '
     -------------------------------------
     TWGS installation detected!
     Proceeding with launch.
-    -------------------------------------'
+    -------------------------------------
+    '
 fi
