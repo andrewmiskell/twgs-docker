@@ -1,5 +1,12 @@
 #!/command/with-contenv bash
 
+ADMINPASS=${ADMINPASS:-admin}
+GAMEPORT=${GAMEPORT:-2002}
+
+#Set the game port for 2002 since Wine runs as non-root, can be mapped to any other port externally via docker port mapping
+s6-setuidgid twgs /usr/bin/wine reg add "HKLM\Software\Epic Interactive Strategy\Trade Wars 2002 Game Server\Configuration" /v Port /d "${GAMEPORT}" /f
+s6-setuidgid twgs /usr/bin/wine reg add "HKLM\Software\Epic Interactive Strategy\Trade Wars 2002 Game Server\Configuration" /v AdminPassword /d "${ADMINPASS}" /f
+
 exec \
     s6-setuidgid twgs \
         /usr/bin/wine /app/drive_c/EIS/TWGS/twgs.exe
