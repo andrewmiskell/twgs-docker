@@ -35,9 +35,11 @@ RUN \
     mkdir -p /usr/share/wine/mono && wget --no-check-certificate -O - https://dl.winehq.org/wine/wine-mono/7.3.0/wine-mono-7.3.0-x86.tar.xz | tar -Jxv -C /usr/share/wine/mono && \
     mkdir -p /usr/share/wine/gecko && wget --no-check-certificate -O - http://dl.winehq.org/wine/wine-gecko/2.47.3/wine-gecko-2.47.3-x86.tar.xz | tar -Jxv -C /usr/share/wine/gecko 
 
-# Add s6 overlay
+# Add s6 overlay and symlink packages
 RUN wget -O - https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz | tar -C / -Jxp
 RUN wget -O - https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_OVERLAY_ARCH}.tar.xz | tar -C / -Jxp
+RUN wget -O - https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz | tar -C / -Jxp
+RUN wget -O - https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz | tar -C / -Jxp
 
 # Create TWGS user and /app directory
 RUN groupmod -g 1000 users && \
