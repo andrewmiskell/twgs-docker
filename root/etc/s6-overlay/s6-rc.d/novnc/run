@@ -1,5 +1,8 @@
 #!/command/with-contenv bash
 
+# Create symlink for index.html for novnc
+ln -s /usr/share/novnc/vnc_lite.html /usr/share/novnc/index.html
+
 exec \
     s6-setuidgid twgs \
         /usr/bin/novnc_server --vnc localhost:5900 --listen 8080
