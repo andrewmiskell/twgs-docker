@@ -1,0 +1,4 @@
+prog "Explorer" "" wine explorer.exe
+prog "RegEdit" "" wine regedit.exe
+prog "NotePad" "" wine notepad.exe
+prog "Internet Explorer" "" wine iexplore.exe
