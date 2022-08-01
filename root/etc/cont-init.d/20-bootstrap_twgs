@@ -12,8 +12,12 @@ if [ ! -f "/app/.twgs_installed" ]; then
     s6-setuidgid twgs /usr/bin/Xvfb :0 -screen 0 1024x768x24 &
     s6-setuidgid twgs /usr/bin/wine /tmp/TWGS220B.EXE /s /v"/qn INSTALLDIR=C:\EIS\TWGS"
     sleep 10
+    if [ -f "/app/drive_c/EIS/TWGS/twgs.exe" ]; then
+        #Set the game port for 2002 since Wine runs as non-root, can be mapped to any other port via docker port mapping
+        s6-setuidgid twgs /usr/bin/wine reg add "HKLM\Software\Epic Interactive Strategy\Trade Wars 2002 Game Server\Configuration" /v Port /d 2002 /f
+        s6-setuidgid twgs touch "/app/.twgs_installed"
+    fi
     /usr/bin/pkill Xvfb
-    s6-setuidgid twgs touch "/app/.twgs_installed"
     echo '
     -------------------------------------
     TWGS has been installed!
