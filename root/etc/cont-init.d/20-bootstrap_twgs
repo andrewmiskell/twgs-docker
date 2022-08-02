@@ -16,6 +16,10 @@ if [ ! -f "/app/.twgs_installed" ]; then
         s6-setuidgid twgs touch "/app/.twgs_installed"
     fi
     /usr/bin/pkill Xvfb
+    if [ ! -d "/app/.icewm" ]; then
+        s6-setuidgid twgs mkdir /app/.icewm
+        s6-setuidgid twgs /bin/cp -r /default-configs/icewm/* /app/.icewm/
+    fi
     echo '
     -------------------------------------
     TWGS has been installed!
