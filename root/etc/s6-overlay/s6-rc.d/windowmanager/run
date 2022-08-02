@@ -1,7 +1,5 @@
-#!/command/execlineb -P
+#!/command/with-contenv bash
 
-with-contenv
-
-unexport HOME
+export HOME=/app
 
 s6-setuidgid twgs /usr/bin/icewm-session
