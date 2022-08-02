@@ -28,6 +28,7 @@ RUN \
     icewm \
     shadow \
     novnc \
+    tzdata \
     wine \
     xvfb \
     x11vnc \
