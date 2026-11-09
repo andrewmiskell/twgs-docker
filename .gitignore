@@ -1,3 +1,5 @@
 *.DS_Store
 TWGS*.EXE
 TOOLS*.EXE
+installers/
+.env

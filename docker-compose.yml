@@ -1,0 +1,27 @@
+services:
+  twgs:
+    build: .
+    image: twgs-wine:local
+    # Wine needs 32-bit x86 packages, so this is always an amd64 image.
+    platform: linux/amd64
+    restart: unless-stopped
+    stop_grace_period: 45s
+    environment:
+      TWGS_VERSION: ${TWGS_VERSION:-220B}
+      TWGS_ACCEPT_LICENSE: ${TWGS_ACCEPT_LICENSE:-no}
+      TWGS_ADMIN_PASSWORD: ${TWGS_ADMIN_PASSWORD:-}
+      VNC_PASSWORD: ${VNC_PASSWORD:-}
+      TZ: ${TZ:-UTC}
+    ports:
+      # Players connect here with a telnet client.
+      - "2002:2002"
+      # Admin access stays on this machine. Use a VPN or SSH tunnel for remote access.
+      - "127.0.0.1:2003:2003"
+      - "127.0.0.1:6080:6080"
+    volumes:
+      # All persistent state: registry, game data, backups (see README).
+      - twgs-data:/data
+      - ${TWGS_INSTALLERS_DIR:-./installers}:/installers:ro
+
+volumes:
+  twgs-data:

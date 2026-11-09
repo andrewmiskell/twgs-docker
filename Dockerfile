@@ -1,43 +1,30 @@
-FROM i386/alpine:edge
+# Contains Wine and the web UI only. TWGS itself is installed at runtime from
+# installers you supply, so this image holds no TWGS code.
+FROM debian:bookworm-slim
 
-# Install all required packages
-RUN \
-    # Install required packages
-    echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
-    apk add --update --upgrade \
-    bash \
-    icewm \
-    shadow \
-    supervisor \
-    novnc \
-    wine \
-    xvfb \
-    x11vnc \
-    xz && \
-    mkdir -p /usr/share/wine/mono && wget --no-check-certificate -O - https://dl.winehq.org/wine/wine-mono/7.3.0/wine-mono-7.3.0-x86.tar.xz | tar -Jxv -C /usr/share/wine/mono && \
-    mkdir -p /usr/share/wine/gecko && wget --no-check-certificate -O - http://dl.winehq.org/wine/wine-gecko/2.47.3/wine-gecko-2.47.3-x86.tar.xz | tar -Jxv -C /usr/share/wine/gecko 
+RUN dpkg --add-architecture i386 \
+ && apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      wine wine32 \
+      xvfb openbox x11vnc xdotool wmctrl \
+      novnc websockify \
+      p7zip-full procps iproute2 tini tzdata \
+ && rm -rf /var/lib/apt/lists/*
 
-# Setup environment variables
-ENV HOME=/root \
-    LANG=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8 \
-    LC_ALL=C.UTF-8 \
-    DISPLAY=:0.0 \
-    DISPLAY_WIDTH=1024 \
-    DISPLAY_HEIGHT=768
+RUN useradd -m -u 1000 twgs \
+ && install -d -o twgs -g twgs /data \
+ && install -d -m 1777 /tmp/.X11-unix \
+ && printf '<meta http-equiv="refresh" content="0; url=vnc.html?autoconnect=1&resize=scale">\n' > /usr/share/novnc/index.html
 
-# Setup application specific variables
-ENV WINEPREFIX=/app \
-    WINEDEBUG=fixme-all
+COPY entrypoint.sh twgs-backup healthcheck.sh /usr/local/bin/
 
-RUN echo "**** create abc user and make our folders ****" && \
-    groupmod -g 1000 users && \
-    useradd -u 911 -U -d /config -s /bin/false abc && \
-    usermod -G users abc && \
-    mkdir -p \
-    /app \
-    /config
+ENV TWGS_VERSION=220B
+VOLUME /data
 
-COPY root/ /
+# 2002 players (telnet), 2003 TWGS remote admin (telnet), 6080 web UI (noVNC)
+EXPOSE 2002 2003 6080
 
-ENTRYPOINT ["/usr/bin/entrypoint"]
+# Long start period: the first start initialises Wine and runs the installer.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=3m --retries=3 CMD ["healthcheck.sh"]
+
+ENTRYPOINT ["tini", "--", "entrypoint.sh"]

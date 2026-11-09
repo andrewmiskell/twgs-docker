@@ -1,0 +1,17 @@
+#!/bin/bash
+# Archives everything TWGS needs to be restored. Usage: twgs-backup [label]
+set -euo pipefail
+
+if pgrep -f 'twgs\.exe' >/dev/null; then
+  echo "[twgs] ERROR: TWGS is running; stop it first so the game files are consistent" >&2
+  exit 1
+fi
+
+archive="/data/backups/twgs-${1:-manual}-$(date +%Y%m%d-%H%M%S).tar.gz"
+mkdir -p /data/backups
+tar -C /data -czf "$archive" \
+  wine/system.reg wine/user.reg wine/userdef.reg \
+  "wine/drive_c/Program Files/EIS" \
+  wine/drive_c/windows/Installer \
+  state/version
+echo "[twgs] Backup written to $archive"
