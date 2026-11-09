@@ -1,6 +1,6 @@
 # Contains Wine and the web UI only. TWGS itself is installed at runtime from
 # installers you supply, so this image holds no TWGS code.
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
 RUN dpkg --add-architecture i386 \
  && apt-get update \
