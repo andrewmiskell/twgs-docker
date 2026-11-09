@@ -1,7 +1,7 @@
 services:
   twgs:
-    build: .
-    image: twgs-wine:local
+    # To build from this repo instead, replace this line with "build: .".
+    image: ghcr.io/andrewmiskell/twgs-docker:latest
     # Wine needs 32-bit x86 packages, so this is always an amd64 image.
     platform: linux/amd64
     restart: unless-stopped

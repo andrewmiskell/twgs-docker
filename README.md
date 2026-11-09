@@ -21,7 +21,7 @@ The previous version is at commit `e65e158`.
 1. Put your installers in `./installers` (`TWGS219.exe`, `TWGS220.exe`, `TWGS220B.exe`).
 2. Run `cp .env.example .env`, then read the [license](#license) and set
    `TWGS_ACCEPT_LICENSE=yes`.
-3. Run `docker compose up -d --build`.
+3. Run `docker compose up -d`.
 4. Open <http://localhost:6080>. If you left the passwords blank, find them with
    `docker compose logs twgs | grep Generated`.
 5. **First start only:** the Activate TWGS dialog holds back server startup and
@@ -70,6 +70,9 @@ Change `TWGS_VERSION` in `.env` and run `docker compose up -d`. The container th
 3. Answers TWGS's "Backup existing games" prompt, which otherwise blocks startup.
 
 Downgrades are refused. To go back, restore a backup.
+
+The container image is updated separately, and your data stays in the volume.
+Run `docker compose pull`, then `docker compose up -d`.
 
 ## Backup and restore
 
