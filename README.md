@@ -3,6 +3,19 @@
 Runs the Windows TWGS server under Wine, with its full admin GUI available in a
 browser through noVNC.
 
+## Coming from the 2022 version
+
+This is a rebuild of the earlier Alpine image, and existing setups don't carry over:
+
+- TWGS data now lives in a `/data` volume. The old image kept it in `/app`, and
+  nothing here reads that location, so a new container starts with fresh games.
+  There is no migration path, so keep your old data if you want to go back to it.
+- The web UI moved from port 8080 to 6080.
+- The container no longer downloads TWGS. You supply the installers and accept
+  the license, as described below.
+
+The previous version is at commit `e65e158`.
+
 ## Quick start
 
 1. Put your installers in `./installers` (`TWGS219.exe`, `TWGS220.exe`, `TWGS220B.exe`).
